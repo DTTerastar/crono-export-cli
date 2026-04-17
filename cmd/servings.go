@@ -1,0 +1,34 @@
+package cmd
+
+import (
+	"github.com/spf13/cobra"
+
+	"github.com/DTTerastar/crono-export-cli/internal/cronoclient"
+)
+
+var servingsCmd = &cobra.Command{
+	Use:   "servings",
+	Short: "Export logged food servings (one row per food eaten, full nutrient breakdown)",
+	RunE: func(cmd *cobra.Command, _ []string) error {
+		rng, err := cronoclient.ParseDateRangeFromFlags(cmd)
+		if err != nil {
+			return err
+		}
+		ctx := cmd.Context()
+		c, err := cronoclient.NewLoggedIn(ctx)
+		if err != nil {
+			return err
+		}
+		defer c.Logout()
+		recs, err := c.Servings(ctx, rng)
+		if err != nil {
+			return err
+		}
+		return emitJSON(recs)
+	},
+}
+
+func init() {
+	cronoclient.AddDateRangeFlags(servingsCmd)
+	rootCmd.AddCommand(servingsCmd)
+}

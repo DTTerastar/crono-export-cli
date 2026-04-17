@@ -1,0 +1,34 @@
+package cmd
+
+import (
+	"github.com/spf13/cobra"
+
+	"github.com/DTTerastar/crono-export-cli/internal/cronoclient"
+)
+
+var exercisesCmd = &cobra.Command{
+	Use:   "exercises",
+	Short: "Export logged exercises (cardio, strength, custom activities)",
+	RunE: func(cmd *cobra.Command, _ []string) error {
+		rng, err := cronoclient.ParseDateRangeFromFlags(cmd)
+		if err != nil {
+			return err
+		}
+		ctx := cmd.Context()
+		c, err := cronoclient.NewLoggedIn(ctx)
+		if err != nil {
+			return err
+		}
+		defer c.Logout()
+		recs, err := c.Exercises(ctx, rng)
+		if err != nil {
+			return err
+		}
+		return emitJSON(recs)
+	},
+}
+
+func init() {
+	cronoclient.AddDateRangeFlags(exercisesCmd)
+	rootCmd.AddCommand(exercisesCmd)
+}

@@ -1,0 +1,41 @@
+version: 2
+
+builds:
+  - binary: crono-export
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+
+archives:
+  - formats:
+      - zip
+    name_template: "crono-export_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
+
+brews:
+  - name: crono-export
+    repository:
+      owner: DTTerastar
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    homepage: https://github.com/DTTerastar/crono-export-cli
+    description: CLI to export Cronometer nutrition, biometrics, and food log data as JSON
+    license: MIT
+
+release:
+  draft: true
+  replace_existing_draft: true
+  replace_existing_artifacts: true
