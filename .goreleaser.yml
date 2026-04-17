@@ -25,18 +25,15 @@ archives:
 checksum:
   name_template: checksums.txt
 
-# Homebrew tap publishing is disabled until HOMEBREW_TAP_TOKEN is set on
-# this repo.  Once the secret exists, uncomment this block and the formula
-# will be auto-published on the next tag.
-# brews:
-#   - name: crono-export
-#     repository:
-#       owner: DTTerastar
-#       name: homebrew-tap
-#       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-#     homepage: https://github.com/DTTerastar/crono-export-cli
-#     description: CLI to export Cronometer nutrition, biometrics, and food log data as JSON
-#     license: MIT
+brews:
+  - name: crono-export
+    repository:
+      owner: DTTerastar
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    homepage: https://github.com/DTTerastar/crono-export-cli
+    description: CLI to export Cronometer nutrition, biometrics, and food log data as JSON
+    license: MIT
 
 release:
   draft: true
