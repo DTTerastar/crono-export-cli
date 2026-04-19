@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/DTTerastar/crono-export-cli/internal/cronoclient"
+	"github.com/quantcli/crono-export-cli/internal/cronoclient"
 )
 
 var nutritionCmd = &cobra.Command{

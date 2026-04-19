@@ -2,9 +2,9 @@
 
 Export your personal nutrition, biometric, and food-log data from [Cronometer](https://cronometer.com) as JSON. Built for personal LLM agents and scripts that want structured nutrition data — for example, an LLM-driven bariatric or fitness coach that needs to know how much protein, B12, iron, or calcium you actually got today.
 
-[![Latest Release](https://img.shields.io/github/v/release/DTTerastar/crono-export-cli)](https://github.com/DTTerastar/crono-export-cli/releases/latest)
+[![Latest Release](https://img.shields.io/github/v/release/quantcli/crono-export-cli)](https://github.com/quantcli/crono-export-cli/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Go](https://img.shields.io/github/go-mod/go-version/DTTerastar/crono-export-cli)](go.mod)
+[![Go](https://img.shields.io/github/go-mod/go-version/quantcli/crono-export-cli)](go.mod)
 ![Platforms](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey)
 
 ## Features
@@ -20,7 +20,7 @@ Export your personal nutrition, biometric, and food-log data from [Cronometer](h
 
 ```sh
 # Install with Homebrew
-brew tap DTTerastar/tap
+brew tap quantcli/tap
 brew install crono-export
 
 # Set credentials and try a query
@@ -33,36 +33,36 @@ crono-export servings --today
 
 **Homebrew (macOS / Linux):**
 ```sh
-brew tap DTTerastar/tap
+brew tap quantcli/tap
 brew install crono-export
 ```
 
-Or download a pre-built binary from the [releases page](https://github.com/DTTerastar/crono-export-cli/releases/latest):
+Or download a pre-built binary from the [releases page](https://github.com/quantcli/crono-export-cli/releases/latest):
 
 **macOS (Apple Silicon):**
 ```sh
-curl -Lo /tmp/crono-export.zip https://github.com/DTTerastar/crono-export-cli/releases/latest/download/crono-export_darwin_arm64.zip
+curl -Lo /tmp/crono-export.zip https://github.com/quantcli/crono-export-cli/releases/latest/download/crono-export_darwin_arm64.zip
 unzip -jo /tmp/crono-export.zip -d ~/bin && rm /tmp/crono-export.zip
 chmod +x ~/bin/crono-export
 ```
 
 **macOS (Intel):**
 ```sh
-curl -Lo /tmp/crono-export.zip https://github.com/DTTerastar/crono-export-cli/releases/latest/download/crono-export_darwin_amd64.zip
+curl -Lo /tmp/crono-export.zip https://github.com/quantcli/crono-export-cli/releases/latest/download/crono-export_darwin_amd64.zip
 unzip -jo /tmp/crono-export.zip -d ~/bin && rm /tmp/crono-export.zip
 chmod +x ~/bin/crono-export
 ```
 
 **Linux (amd64):**
 ```sh
-curl -Lo /tmp/crono-export.zip https://github.com/DTTerastar/crono-export-cli/releases/latest/download/crono-export_linux_amd64.zip
+curl -Lo /tmp/crono-export.zip https://github.com/quantcli/crono-export-cli/releases/latest/download/crono-export_linux_amd64.zip
 unzip -jo /tmp/crono-export.zip -d ~/bin && rm /tmp/crono-export.zip
 chmod +x ~/bin/crono-export
 ```
 
 **Windows (amd64):**
 
-Download `crono-export_windows_amd64.zip` from the [releases page](https://github.com/DTTerastar/crono-export-cli/releases/latest), extract it, and add the directory to your PATH.
+Download `crono-export_windows_amd64.zip` from the [releases page](https://github.com/quantcli/crono-export-cli/releases/latest), extract it, and add the directory to your PATH.
 
 Make sure `~/bin` is in your `PATH`. If not, add this to your `~/.zshrc` or `~/.bashrc`:
 ```sh

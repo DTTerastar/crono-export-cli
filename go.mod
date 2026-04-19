@@ -1,4 +1,4 @@
-module github.com/DTTerastar/crono-export-cli
+module github.com/quantcli/crono-export-cli
 
 go 1.25.5
 
