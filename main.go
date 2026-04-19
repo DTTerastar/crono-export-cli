@@ -1,6 +1,6 @@
 package main
 
-import "github.com/DTTerastar/crono-export-cli/cmd"
+import "github.com/quantcli/crono-export-cli/cmd"
 
 func main() {
 	cmd.Execute()
