@@ -27,6 +27,7 @@ checksum:
 
 homebrew_casks:
   - name: crono-export
+    skip_upload: auto
     repository:
       owner: quantcli
       name: homebrew-tap
@@ -45,6 +46,4 @@ homebrew_casks:
           end
 
 release:
-  draft: true
-  replace_existing_draft: true
   replace_existing_artifacts: true
