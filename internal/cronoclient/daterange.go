@@ -12,7 +12,11 @@ import (
 
 const dateLayout = "2006-01-02"
 
-// DateRange is an inclusive [Start, End] window in UTC.
+// DateRange is an inclusive [Start, End] window.  Only the calendar date
+// (YYYY-MM-DD) of each endpoint is sent to Cronometer's export endpoints,
+// so the time-of-day and zone on these values don't round-trip — but the
+// calendar date is resolved in the user's local zone so that --today
+// matches the day the user sees in the Cronometer UI.
 type DateRange struct {
 	Start time.Time
 	End   time.Time
@@ -29,17 +33,18 @@ func AddDateRangeFlags(cmd *cobra.Command) {
 
 // ParseDateRangeFromFlags reads the date-range flags off cmd and resolves
 // them into a concrete DateRange.  Default when no flags are passed: the
-// last 7 days ending today (UTC).
+// last 7 days ending today.  "Today" is the user's local calendar day.
 func ParseDateRangeFromFlags(cmd *cobra.Command) (DateRange, error) {
 	startStr, _ := cmd.Flags().GetString("start")
 	endStr, _ := cmd.Flags().GetString("end")
 	days, _ := cmd.Flags().GetInt("days")
 	today, _ := cmd.Flags().GetBool("today")
-	return resolveDateRange(startStr, endStr, days, today, time.Now().UTC())
+	return resolveDateRange(startStr, endStr, days, today, time.Now())
 }
 
 func resolveDateRange(startStr, endStr string, days int, today bool, ref time.Time) (DateRange, error) {
-	now := ref.Truncate(24 * time.Hour)
+	y, m, d := ref.Date()
+	now := time.Date(y, m, d, 0, 0, 0, 0, ref.Location())
 	var start, end time.Time
 
 	switch {
