@@ -59,13 +59,13 @@ func resolveDateRange(startStr, endStr string, days int, today bool, ref time.Ti
 	default:
 		var err error
 		if startStr != "" {
-			start, err = time.ParseInLocation(dateLayout, startStr, time.UTC)
+			start, err = time.ParseInLocation(dateLayout, startStr, ref.Location())
 			if err != nil {
 				return DateRange{}, fmt.Errorf("bad --start: %w", err)
 			}
 		}
 		if endStr != "" {
-			end, err = time.ParseInLocation(dateLayout, endStr, time.UTC)
+			end, err = time.ParseInLocation(dateLayout, endStr, ref.Location())
 			if err != nil {
 				return DateRange{}, fmt.Errorf("bad --end: %w", err)
 			}
