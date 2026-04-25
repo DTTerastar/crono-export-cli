@@ -18,10 +18,9 @@ OUTPUT FORMATS
   bullet per non-zero field, easy to skim and easy for an LLM to consume
   inline.  Zero-valued nutrients are suppressed in markdown.
 
-  --json  (or --format json)  Pretty-printed JSON ARRAY of full rows.
-                              Use this when you want the complete row,
-                              when piping to jq, or when round-tripping
-                              into other tools.  Nothing is suppressed.
+  --format json   Pretty-printed JSON ARRAY of full rows. Use this when
+                  you want the complete row, when piping to jq, or when
+                  round-tripping into other tools. Nothing is suppressed.
 
   Errors go to stderr.  You do NOT need '2>&1'.  Exit code is 0 on
   success and non-zero on auth or network failure.  An empty result is
@@ -77,20 +76,20 @@ EXAMPLES
   crono-export nutrition --since today
 
   # Today's macros, parsed (numbers via tonumber)
-  crono-export nutrition --since today --json | jq '.[] | {
+  crono-export nutrition --since today --format json | jq '.[] | {
     date:    .Date,
     kcal:    (."Energy (kcal)" | tonumber),
     protein: (."Protein (g)"   | tonumber)
   }'
 
   # 7-day protein total (servings is typed — no tonumber needed)
-  crono-export servings --since 7d --json | jq '[.[] | .ProteinG] | add'
+  crono-export servings --since 7d --format json | jq '[.[] | .ProteinG] | add'
 
   # All foods from today's breakfast
-  crono-export servings --since today --json | jq '[.[] | select(.Group == "Breakfast") | .FoodName]'
+  crono-export servings --since today --format json | jq '[.[] | select(.Group == "Breakfast") | .FoodName]'
 
   # Latest weight reading in a 30-day window
-  crono-export biometrics --since 30d --json | jq 'map(select(.Metric == "Weight")) | sort_by(.RecordedTime) | last'
+  crono-export biometrics --since 30d --format json | jq 'map(select(.Metric == "Weight")) | sort_by(.RecordedTime) | last'
 
 GOTCHAS
   - "Today" is your LOCAL calendar day, not UTC.
@@ -98,7 +97,7 @@ GOTCHAS
     'jq tonumber' when doing math.  'servings', 'biometrics', 'exercises'
     JSON values are already typed numbers.
   - Markdown drops zero-valued nutrients to stay readable.  If you need
-    every column (including zeros), use --json.
+    every column (including zeros), use --format json.
   - Cronometer logs by calendar day; nothing here is real-time.  Two
     '--since today' calls moments apart return the same data.
 `
@@ -107,7 +106,7 @@ var primeCmd = &cobra.Command{
 	Use:   "prime",
 	Short: "Print an LLM-targeted primer (output formats, subcommands, jq recipes)",
 	Long: `Print a one-screen primer aimed at LLM agents calling this CLI as a tool.
-Covers the output formats (markdown by default, --json for structured),
+Covers the output formats (markdown by default, --format json for structured),
 auth env vars, the subcommands and what their rows look like, the shared
 date flags, and a few jq recipes for common questions.`,
 	RunE: func(cmd *cobra.Command, _ []string) error {
