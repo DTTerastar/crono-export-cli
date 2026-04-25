@@ -10,7 +10,7 @@ Export your personal nutrition, biometric, and food-log data from [Cronometer](h
 ## Features
 
 - **Five export endpoints** — servings (per-food log with full nutrient breakdown), nutrition (daily totals), biometrics (weight, body fat, custom metrics), exercises, and notes
-- **Markdown by default, JSON on demand** — narrow fitdown-style markdown reads well in chat and terminals; pass `--json` for the full structured row to pipe through `jq`
+- **Markdown by default, JSON on demand** — narrow fitdown-style markdown reads well in chat and terminals; pass `--format json` for the full structured row to pipe through `jq`
 - **Date selection** — `--since` / `--until` accepting `today`, `yesterday`, `YYYY-MM-DD`, or `Nd`/`Nw`/`Nm`/`Ny` on every subcommand
 - **Single static binary** — no Python or Node runtime; drop it in `~/bin/` and go
 - **Credentials via env** — `CRONOMETER_USERNAME` / `CRONOMETER_PASSWORD`, no config file needed
@@ -153,11 +153,11 @@ crono-export notes --since 30d
 
 Default output is narrow, [Fitdown](https://github.com/datavis-tech/fitdown)-style markdown — date-grouped headings, one bullet per non-zero field, no wide tables. Markdown reads well in chat and on a terminal and is easy for an LLM to consume inline.
 
-For programmatic use, pass `--json` (or `--format json`) to get the full structured row as a JSON array on stdout — nothing suppressed, easy to pipe through `jq`. Errors always go to stderr, so JSON output stays clean for piping.
+For programmatic use, pass `--format json` to get the full structured row as a JSON array on stdout — nothing suppressed, easy to pipe through `jq`. Errors always go to stderr, so JSON output stays clean for piping.
 
 ```sh
 crono-export servings --since today                 # markdown, default
-crono-export servings --since today --json | jq '[.[] | {food: .FoodName, protein: .ProteinG}]'
+crono-export servings --since today --format json | jq '[.[] | {food: .FoodName, protein: .ProteinG}]'
 ```
 
 LLM agents: run `crono-export prime` for a one-screen orientation describing both formats, all subcommands, the date flags, and `jq` recipes.

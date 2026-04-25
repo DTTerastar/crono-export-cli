@@ -13,8 +13,8 @@ var rootCmd = &cobra.Command{
 	Short: "Export Cronometer nutrition, biometrics, and food log data",
 	Long: `crono-export reads your personal Cronometer data via the same export
 endpoints the web app uses and prints it on stdout.  Default output is
-narrow, fitdown-style markdown; pass --json (or --format json) for the
-full structured row.
+narrow, fitdown-style markdown; pass --format json for the full
+structured row.
 
 Credentials must be supplied via environment variables:
   CRONOMETER_USERNAME  your Cronometer email

@@ -23,24 +23,23 @@ const (
 	kindNotes
 )
 
-// AddFormatFlags registers --format and --json on every export subcommand.
+// AddFormatFlags registers --format on every export subcommand, per the
+// quantcli shared contract §4.
+// https://github.com/quantcli/common/blob/main/CONTRACT.md#4-output-format
 func AddFormatFlags(cmd *cobra.Command) {
-	cmd.Flags().String("format", "md", "output format: md|json")
-	cmd.Flags().Bool("json", false, "shortcut for --format json")
+	cmd.Flags().String("format", "markdown",
+		"Output format: markdown (default, fitdown-style) or json")
 }
 
 func chosenFormat(cmd *cobra.Command) (string, error) {
 	f, _ := cmd.Flags().GetString("format")
-	if j, _ := cmd.Flags().GetBool("json"); j {
-		f = "json"
-	}
 	switch f {
-	case "md", "markdown":
-		return "md", nil
+	case "", "markdown", "md":
+		return "markdown", nil
 	case "json":
 		return "json", nil
 	default:
-		return "", fmt.Errorf("unknown --format %q (want md or json)", f)
+		return "", fmt.Errorf("unknown --format %q (use markdown or json)", f)
 	}
 }
 
