@@ -24,11 +24,12 @@ var servingsCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		return emitJSON(recs)
+		return emit(cmd, kindServings, recs)
 	},
 }
 
 func init() {
 	cronoclient.AddDateRangeFlags(servingsCmd)
+	AddFormatFlags(servingsCmd)
 	rootCmd.AddCommand(servingsCmd)
 }

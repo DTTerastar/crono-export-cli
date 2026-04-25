@@ -1,6 +1,6 @@
 # crono-export-cli
 
-Export your personal nutrition, biometric, and food-log data from [Cronometer](https://cronometer.com) as JSON. Built for personal LLM agents and scripts that want structured nutrition data — for example, an LLM-driven bariatric or fitness coach that needs to know how much protein, B12, iron, or calcium you actually got today.
+Export your personal nutrition, biometric, and food-log data from [Cronometer](https://cronometer.com) as narrow markdown (the default) or JSON. Built for personal LLM agents and scripts that want structured nutrition data — for example, an LLM-driven bariatric or fitness coach that needs to know how much protein, B12, iron, or calcium you actually got today.
 
 [![Latest Release](https://img.shields.io/github/v/release/quantcli/crono-export-cli)](https://github.com/quantcli/crono-export-cli/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -10,7 +10,7 @@ Export your personal nutrition, biometric, and food-log data from [Cronometer](h
 ## Features
 
 - **Five export endpoints** — servings (per-food log with full nutrient breakdown), nutrition (daily totals), biometrics (weight, body fat, custom metrics), exercises, and notes
-- **JSON on stdout** — pipe straight to `jq`, save to disk, or hand to an LLM tool
+- **Markdown by default, JSON on demand** — narrow fitdown-style markdown reads well in chat and terminals; pass `--json` for the full structured row to pipe through `jq`
 - **Date selection** — `--today`, `--days N`, or `--start YYYY-MM-DD --end YYYY-MM-DD` on every subcommand
 - **Single static binary** — no Python or Node runtime; drop it in `~/bin/` and go
 - **Credentials via env** — `CRONOMETER_USERNAME` / `CRONOMETER_PASSWORD`, no config file needed
@@ -101,24 +101,20 @@ crono-export servings --days 7
 crono-export servings --start 2026-04-01 --end 2026-04-15
 ```
 
-Sample row (truncated):
+Default markdown output (per food, zero-valued nutrients suppressed):
 
-```json
-{
-  "RecordedTime": "2026-04-11T00:00:00Z",
-  "Group": "Breakfast",
-  "FoodName": "Cheese Cracker",
-  "QuantityValue": 20,
-  "QuantityUnits": "square",
-  "EnergyKcal": 97.8,
-  "ProteinG": 1.95,
-  "CarbsG": 11.88,
-  "FiberG": 0.46,
-  "FatG": 4.94,
-  "B12Mg": 0.07,
-  "CalciumMg": 27.2,
-  "IronMg": 0.69
-}
+```markdown
+## 2026-04-11
+
+### Breakfast · Cheese Cracker (20 square)
+- Energy: 97.8 kcal
+- Protein: 1.95 g
+- Carbs: 11.88 g
+- Fiber: 0.46 g
+- Fat: 4.94 g
+- B12: 0.07 mg
+- Calcium: 27.2 mg
+- Iron: 0.69 mg
 ```
 
 ### Nutrition — daily totals
@@ -135,15 +131,9 @@ crono-export nutrition --days 30
 crono-export biometrics --days 30
 ```
 
-```json
-[
-  {
-    "RecordedTime": "2026-04-10T00:00:00Z",
-    "Metric": "Weight",
-    "Unit": "lbs",
-    "Amount": 237
-  }
-]
+```markdown
+## 2026-04-10
+- Weight: 237 lbs
 ```
 
 ### Exercises
@@ -160,11 +150,16 @@ crono-export notes --days 30
 
 ## Output Format
 
-Every subcommand prints pretty-printed JSON to stdout. Errors and progress messages go to stderr, so it's safe to pipe stdout into `jq`, redirect into a file, or feed to an LLM tool without worrying about mixed output.
+Default output is narrow, [Fitdown](https://github.com/datavis-tech/fitdown)-style markdown — date-grouped headings, one bullet per non-zero field, no wide tables. Markdown reads well in chat and on a terminal and is easy for an LLM to consume inline.
+
+For programmatic use, pass `--json` (or `--format json`) to get the full structured row as a JSON array on stdout — nothing suppressed, easy to pipe through `jq`. Errors always go to stderr, so JSON output stays clean for piping.
 
 ```sh
-crono-export servings --today | jq '[.[] | {food: .FoodName, protein: .ProteinG}]'
+crono-export servings --today                 # markdown, default
+crono-export servings --today --json | jq '[.[] | {food: .FoodName, protein: .ProteinG}]'
 ```
+
+LLM agents: run `crono-export prime` for a one-screen orientation describing both formats, all subcommands, the date flags, and `jq` recipes.
 
 ## About Cronometer
 

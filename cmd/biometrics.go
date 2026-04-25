@@ -24,11 +24,12 @@ var biometricsCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		return emitJSON(recs)
+		return emit(cmd, kindBiometrics, recs)
 	},
 }
 
 func init() {
 	cronoclient.AddDateRangeFlags(biometricsCmd)
+	AddFormatFlags(biometricsCmd)
 	rootCmd.AddCommand(biometricsCmd)
 }

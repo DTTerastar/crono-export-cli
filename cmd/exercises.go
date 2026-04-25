@@ -24,11 +24,12 @@ var exercisesCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		return emitJSON(recs)
+		return emit(cmd, kindExercises, recs)
 	},
 }
 
 func init() {
 	cronoclient.AddDateRangeFlags(exercisesCmd)
+	AddFormatFlags(exercisesCmd)
 	rootCmd.AddCommand(exercisesCmd)
 }

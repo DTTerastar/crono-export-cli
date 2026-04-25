@@ -2,7 +2,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 
@@ -11,16 +10,18 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "crono-export",
-	Short: "Export Cronometer nutrition, biometrics, and food log data as JSON",
+	Short: "Export Cronometer nutrition, biometrics, and food log data",
 	Long: `crono-export reads your personal Cronometer data via the same export
-endpoints the web app uses and prints it as JSON on stdout.
+endpoints the web app uses and prints it on stdout.  Default output is
+narrow, fitdown-style markdown; pass --json (or --format json) for the
+full structured row.
 
 Credentials must be supplied via environment variables:
   CRONOMETER_USERNAME  your Cronometer email
   CRONOMETER_PASSWORD  your Cronometer password
 
-Designed for use by personal LLM agents and scripts that want structured
-nutrition data — for example, an LLM-driven bariatric or fitness coach.
+Designed for use by personal LLM agents and scripts — markdown reads
+well in chat, JSON pipes well to jq.
 
 LLM agents: run 'crono-export prime' for a one-screen orientation
 (I/O contract, subcommands, date flags, jq recipes).`,
@@ -34,11 +35,4 @@ func Execute() {
 		fmt.Fprintln(os.Stderr, "error:", err)
 		os.Exit(1)
 	}
-}
-
-// emitJSON pretty-prints v as JSON to stdout.  Used by every subcommand.
-func emitJSON(v any) error {
-	enc := json.NewEncoder(os.Stdout)
-	enc.SetIndent("", "  ")
-	return enc.Encode(v)
 }
