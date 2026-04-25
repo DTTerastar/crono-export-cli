@@ -140,7 +140,7 @@ func renderServings(w io.Writer, recs gocronometer.ServingRecords) error {
 			renderServingRecord(w, r)
 		}
 	}
-	fmt.Fprintln(w, "_zero-valued nutrients omitted; use --json for the full row_")
+	fmt.Fprintln(w, "_zero-valued nutrients omitted; use --format json for the full row_")
 	return nil
 }
 
@@ -298,7 +298,7 @@ func renderNutrition(w io.Writer, rows []map[string]string) error {
 		}
 	}
 	fmt.Fprintln(w)
-	fmt.Fprintln(w, "_zero-valued nutrients omitted; use --json for the full row_")
+	fmt.Fprintln(w, "_zero-valued nutrients omitted; use --format json for the full row_")
 	return nil
 }
 
