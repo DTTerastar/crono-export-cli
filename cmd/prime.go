@@ -32,6 +32,9 @@ AUTH
     CRONOMETER_USERNAME   your Cronometer email
     CRONOMETER_PASSWORD   your Cronometer password
 
+  'crono-export auth status' is a fast local check that exits 0 when both
+  vars are set, 1 with a clear "missing X" message otherwise.
+
 DATE FLAGS  (every export subcommand accepts these)
   --since VALUE   inclusive lower bound
   --until VALUE   inclusive upper bound; defaults to today
