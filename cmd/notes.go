@@ -24,11 +24,12 @@ var notesCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		return emitJSON(rows)
+		return emit(cmd, kindNotes, rows)
 	},
 }
 
 func init() {
 	cronoclient.AddDateRangeFlags(notesCmd)
+	AddFormatFlags(notesCmd)
 	rootCmd.AddCommand(notesCmd)
 }

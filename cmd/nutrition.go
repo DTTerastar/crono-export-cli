@@ -24,11 +24,12 @@ var nutritionCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		return emitJSON(rows)
+		return emit(cmd, kindNutrition, rows)
 	},
 }
 
 func init() {
 	cronoclient.AddDateRangeFlags(nutritionCmd)
+	AddFormatFlags(nutritionCmd)
 	rootCmd.AddCommand(nutritionCmd)
 }
