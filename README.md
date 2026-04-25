@@ -14,7 +14,7 @@ Export your personal nutrition, biometric, and food-log data from [Cronometer](h
 - **Date selection** — `--today`, `--days N`, or `--start YYYY-MM-DD --end YYYY-MM-DD` on every subcommand
 - **Single static binary** — no Python or Node runtime; drop it in `~/bin/` and go
 - **Credentials via env** — `CRONOMETER_USERNAME` / `CRONOMETER_PASSWORD`, no config file needed
-- **Built for agents** — designed to be called as a terminal tool by LLMs (Claude, hermes-agent, etc.)
+- **Built for agents** — designed to be called as a terminal tool by LLMs (Claude, hermes-agent, etc.); run `crono-export prime` for a one-screen orientation (I/O contract, subcommands, jq recipes)
 
 ## Quick Start
 

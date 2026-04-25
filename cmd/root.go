@@ -20,7 +20,10 @@ Credentials must be supplied via environment variables:
   CRONOMETER_PASSWORD  your Cronometer password
 
 Designed for use by personal LLM agents and scripts that want structured
-nutrition data — for example, an LLM-driven bariatric or fitness coach.`,
+nutrition data — for example, an LLM-driven bariatric or fitness coach.
+
+LLM agents: run 'crono-export prime' for a one-screen orientation
+(I/O contract, subcommands, date flags, jq recipes).`,
 	SilenceUsage:  true,
 	SilenceErrors: true,
 }
