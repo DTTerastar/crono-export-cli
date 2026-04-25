@@ -11,7 +11,7 @@ Export your personal nutrition, biometric, and food-log data from [Cronometer](h
 
 - **Five export endpoints** — servings (per-food log with full nutrient breakdown), nutrition (daily totals), biometrics (weight, body fat, custom metrics), exercises, and notes
 - **Markdown by default, JSON on demand** — narrow fitdown-style markdown reads well in chat and terminals; pass `--json` for the full structured row to pipe through `jq`
-- **Date selection** — `--today`, `--days N`, or `--start YYYY-MM-DD --end YYYY-MM-DD` on every subcommand
+- **Date selection** — `--since` / `--until` accepting `today`, `yesterday`, `YYYY-MM-DD`, or `Nd`/`Nw`/`Nm`/`Ny` on every subcommand
 - **Single static binary** — no Python or Node runtime; drop it in `~/bin/` and go
 - **Credentials via env** — `CRONOMETER_USERNAME` / `CRONOMETER_PASSWORD`, no config file needed
 - **Built for agents** — designed to be called as a terminal tool by LLMs (Claude, hermes-agent, etc.); run `crono-export prime` for a one-screen orientation (I/O contract, subcommands, jq recipes)
@@ -26,7 +26,7 @@ brew install crono-export
 # Set credentials and try a query
 export CRONOMETER_USERNAME="you@example.com"
 export CRONOMETER_PASSWORD="…"
-crono-export servings --today
+crono-export servings --since today
 ```
 
 ## Install
@@ -82,23 +82,24 @@ The CLI logs in on every invocation; there's no token cache. Cronometer doesn't 
 
 ## Usage
 
-Every subcommand accepts the same date flags:
+Every subcommand accepts the same date flags, per the [shared quantcli contract](https://github.com/quantcli/common/blob/main/CONTRACT.md#3-date-flags):
 
 | Flag | Meaning |
 |---|---|
-| `--today` | Just today |
-| `--days N` | The last N days, ending today |
-| `--start YYYY-MM-DD --end YYYY-MM-DD` | Explicit window (inclusive) |
+| `--since VALUE` | Inclusive lower bound |
+| `--until VALUE` | Inclusive upper bound (omit for "today") |
 | *(none)* | Last 7 days, ending today |
+
+`VALUE` is one of: `today`, `yesterday`, `YYYY-MM-DD`, or a relative duration like `7d`, `4w`, `6m`, `1y`.
 
 ### Servings — per-food log
 
 One row per food item logged, with full macro and micronutrient breakdown.
 
 ```sh
-crono-export servings --today
-crono-export servings --days 7
-crono-export servings --start 2026-04-01 --end 2026-04-15
+crono-export servings --since today
+crono-export servings --since 7d
+crono-export servings --since 2026-04-01 --until 2026-04-15
 ```
 
 Default markdown output (per food, zero-valued nutrients suppressed):
@@ -122,13 +123,13 @@ Default markdown output (per food, zero-valued nutrients suppressed):
 One row per day, totals across every food logged that day.
 
 ```sh
-crono-export nutrition --days 30
+crono-export nutrition --since 30d
 ```
 
 ### Biometrics — weight, body fat, custom metrics
 
 ```sh
-crono-export biometrics --days 30
+crono-export biometrics --since 30d
 ```
 
 ```markdown
@@ -139,13 +140,13 @@ crono-export biometrics --days 30
 ### Exercises
 
 ```sh
-crono-export exercises --days 7
+crono-export exercises --since 7d
 ```
 
 ### Notes
 
 ```sh
-crono-export notes --days 30
+crono-export notes --since 30d
 ```
 
 ## Output Format
@@ -155,8 +156,8 @@ Default output is narrow, [Fitdown](https://github.com/datavis-tech/fitdown)-sty
 For programmatic use, pass `--json` (or `--format json`) to get the full structured row as a JSON array on stdout — nothing suppressed, easy to pipe through `jq`. Errors always go to stderr, so JSON output stays clean for piping.
 
 ```sh
-crono-export servings --today                 # markdown, default
-crono-export servings --today --json | jq '[.[] | {food: .FoodName, protein: .ProteinG}]'
+crono-export servings --since today                 # markdown, default
+crono-export servings --since today --json | jq '[.[] | {food: .FoodName, protein: .ProteinG}]'
 ```
 
 LLM agents: run `crono-export prime` for a one-screen orientation describing both formats, all subcommands, the date flags, and `jq` recipes.

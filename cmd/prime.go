@@ -34,10 +34,13 @@ AUTH
     CRONOMETER_PASSWORD   your Cronometer password
 
 DATE FLAGS  (every export subcommand accepts these)
-  --today                              just today (LOCAL calendar date)
-  --days N                             last N days, ending today
-  --start YYYY-MM-DD --end YYYY-MM-DD  explicit inclusive window
-  (no flag)                            last 7 days, ending today
+  --since VALUE   inclusive lower bound
+  --until VALUE   inclusive upper bound; defaults to today
+  VALUE: today | yesterday | YYYY-MM-DD | Nd/Nw/Nm/Ny
+  (no flag)       last 7 days, ending today
+
+  See https://github.com/quantcli/common/blob/main/CONTRACT.md#3-date-flags
+  for the cross-CLI specification.
 
 SUBCOMMANDS
 
@@ -71,23 +74,23 @@ SUBCOMMANDS
 EXAMPLES
 
   # Today's macros, scannable
-  crono-export nutrition --today
+  crono-export nutrition --since today
 
   # Today's macros, parsed (numbers via tonumber)
-  crono-export nutrition --today --json | jq '.[] | {
+  crono-export nutrition --since today --json | jq '.[] | {
     date:    .Date,
     kcal:    (."Energy (kcal)" | tonumber),
     protein: (."Protein (g)"   | tonumber)
   }'
 
   # 7-day protein total (servings is typed — no tonumber needed)
-  crono-export servings --days 7 --json | jq '[.[] | .ProteinG] | add'
+  crono-export servings --since 7d --json | jq '[.[] | .ProteinG] | add'
 
   # All foods from today's breakfast
-  crono-export servings --today --json | jq '[.[] | select(.Group == "Breakfast") | .FoodName]'
+  crono-export servings --since today --json | jq '[.[] | select(.Group == "Breakfast") | .FoodName]'
 
   # Latest weight reading in a 30-day window
-  crono-export biometrics --days 30 --json | jq 'map(select(.Metric == "Weight")) | sort_by(.RecordedTime) | last'
+  crono-export biometrics --since 30d --json | jq 'map(select(.Metric == "Weight")) | sort_by(.RecordedTime) | last'
 
 GOTCHAS
   - "Today" is your LOCAL calendar day, not UTC.
@@ -96,8 +99,8 @@ GOTCHAS
     JSON values are already typed numbers.
   - Markdown drops zero-valued nutrients to stay readable.  If you need
     every column (including zeros), use --json.
-  - Cronometer logs by calendar day; nothing here is real-time.  The same
-    --today call moments apart returns the same data.
+  - Cronometer logs by calendar day; nothing here is real-time.  Two
+    '--since today' calls moments apart return the same data.
 `
 
 var primeCmd = &cobra.Command{
