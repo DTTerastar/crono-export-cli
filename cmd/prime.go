@@ -91,6 +91,9 @@ EXAMPLES
   # All foods from today's breakfast
   crono-export servings --since today --format json | jq '[.[] | select(.Group == "Breakfast") | .FoodName]'
 
+  # All servings on a specific day
+  crono-export servings --since 7d --format json | jq '[.[] | select(.RecordedTime | startswith("2026-04-25"))]'
+
   # Latest weight reading in a 30-day window
   crono-export biometrics --since 30d --format json | jq 'map(select(.Metric == "Weight")) | sort_by(.RecordedTime) | last'
 
@@ -103,6 +106,8 @@ GOTCHAS
     every column (including zeros), use --format json.
   - Cronometer logs by calendar day; nothing here is real-time.  Two
     '--since today' calls moments apart return the same data.
+  - 'servings' JSON rows contain a 'Day' field that is always null — use
+    'RecordedTime' (an ISO-8601 timestamp) for any date-based filtering.
 `
 
 var primeCmd = &cobra.Command{
