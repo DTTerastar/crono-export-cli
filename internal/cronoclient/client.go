@@ -39,7 +39,7 @@ func (c *Client) Logout() {
 
 // Servings returns parsed serving records (one row per food item logged).
 func (c *Client) Servings(ctx context.Context, rng DateRange) (any, error) {
-	recs, err := c.inner.ExportServingsParsedWithLocation(ctx, rng.Start, rng.End, time.UTC)
+	recs, err := c.inner.ExportServingsParsedWithLocation(ctx, rng.Start, rng.End, time.Local)
 	if err != nil {
 		return nil, fmt.Errorf("export servings: %w", err)
 	}
@@ -48,7 +48,7 @@ func (c *Client) Servings(ctx context.Context, rng DateRange) (any, error) {
 
 // Exercises returns parsed exercise records.
 func (c *Client) Exercises(ctx context.Context, rng DateRange) (any, error) {
-	recs, err := c.inner.ExportExercisesParsedWithLocation(ctx, rng.Start, rng.End, time.UTC)
+	recs, err := c.inner.ExportExercisesParsedWithLocation(ctx, rng.Start, rng.End, time.Local)
 	if err != nil {
 		return nil, fmt.Errorf("export exercises: %w", err)
 	}
@@ -57,7 +57,7 @@ func (c *Client) Exercises(ctx context.Context, rng DateRange) (any, error) {
 
 // Biometrics returns parsed biometric records (weight, body fat, etc.).
 func (c *Client) Biometrics(ctx context.Context, rng DateRange) (any, error) {
-	recs, err := c.inner.ExportBiometricRecordsParsedWithLocation(ctx, rng.Start, rng.End, time.UTC)
+	recs, err := c.inner.ExportBiometricRecordsParsedWithLocation(ctx, rng.Start, rng.End, time.Local)
 	if err != nil {
 		return nil, fmt.Errorf("export biometrics: %w", err)
 	}
