@@ -1,19 +1,19 @@
-name: Auto Assign
+name: Auto-assign PR
+
 on:
-  issues:
-    types: [opened]
-  pull_request:
-    types: [opened]
+  pull_request_target:
+    types: [opened, reopened, ready_for_review]
+
+permissions:
+  pull-requests: write
+
 jobs:
-  run:
+  assign:
+    if: github.event.pull_request.assignees[0] == null
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
     steps:
-    - name: 'Auto-assign issue'
-      uses: pozil/auto-assign-issue@v1
-      with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          assignees: DTTerastar
-          numOfAssignee: 1
+      - name: Assign PR to DTTerastar
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr edit "$PR_URL" --add-assignee DTTerastar
