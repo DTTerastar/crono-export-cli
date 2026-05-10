@@ -3,6 +3,8 @@ github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/jrmycanady/gocronometer v1.5.1 h1:m2J31jEuLlL4RRdQLY33IFs4TAwmfevvJYl2SZxBSQ0=
 github.com/jrmycanady/gocronometer v1.5.1/go.mod h1:swnvYB6twU20LDzNpAz8JOX5mCHktTW06zlSXmmyZWc=
+github.com/quantcli/common/compat v0.0.0-20260510225630-4c588c19cd1b h1:fO7EfkEqzLRC8Ev22jIq05fPs+JwAB7bCDy6FA+GA5k=
+github.com/quantcli/common/compat v0.0.0-20260510225630-4c588c19cd1b/go.mod h1:VBC/zEphSZgCZS1rhWsR3A8EWYSbTkP/MwqWHL7266s=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/spf13/cobra v1.10.2 h1:DMTTonx5m65Ic0GOoRY2c16WCbHxOOw6xxezuLaBpcU=
 github.com/spf13/cobra v1.10.2/go.mod h1:7C1pvHqHw5A4vrJfjNwvOdzYu0Gml16OCs2GRiTUUS4=
