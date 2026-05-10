@@ -24,5 +24,18 @@ func TestContractDates(t *testing.T) {
 	if bin == "" {
 		t.Skip("CRONO_EXPORT_BIN not set; skipping compat suite")
 	}
-	dates.RunContract(t, compat.Runner{Binary: bin})
+	// crono is cobra-based: --since/--until live on each data-producing
+	// subcommand, not the root binary. The compat suite dispatches per
+	// subcommand under a `subcommand=NAME/...` subtree so any single
+	// regression surfaces as a named subtest failure.
+	dates.RunContract(t, compat.Runner{
+		Binary: bin,
+		Subcommands: []string{
+			"biometrics",
+			"exercises",
+			"nutrition",
+			"servings",
+			"notes",
+		},
+	})
 }
