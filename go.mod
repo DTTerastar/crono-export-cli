@@ -4,6 +4,7 @@ go 1.25.5
 
 require (
 	github.com/jrmycanady/gocronometer v1.5.1
+	github.com/quantcli/common/compat v0.0.0-20260510223424-1882283f6817
 	github.com/spf13/cobra v1.10.2
 )
 
