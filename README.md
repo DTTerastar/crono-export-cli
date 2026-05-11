@@ -1,5 +1,24 @@
 # crono-export-cli
 
+> ## ⚠️ Deprecated — do not use for new deployments
+>
+> This tool is **deprecated** and will not receive further development, releases, or security patches.
+>
+> **Why:**
+>
+> 1. **Cronometer's Terms of Service prohibit the AI/LLM use case this tool was built for.** [Section 10(b) of Cronometer's Terms](https://cronometer.com/terms/) forbids using Cronometer content to train, ground, or otherwise feed AI/LLM systems — exactly the workflow `crono-export-cli` was designed to enable. We cannot in good conscience continue distributing a tool whose primary intended use violates the upstream service's terms.
+> 2. **The underlying dependency carries a GPL-2.0 license that is incompatible with this repo's MIT license.** `crono-export-cli` depends on [`jrmycanady/gocronometer`](https://github.com/jrmycanady/gocronometer), which is GPL-2.0. Statically linking GPL-2.0 code into an MIT-distributed binary creates a license-compliance defect in every binary we have shipped. The pre-built binaries on the releases page are affected.
+>
+> **What you should do:**
+>
+> - **For your own data:** Cronometer's web UI offers a manual data export (Settings → Account → Export Data) that covers servings, nutrition, biometrics, exercises, and notes. Use that instead.
+> - **Existing binaries:** prior releases remain available on the [releases page](https://github.com/quantcli/crono-export-cli/releases) for archival reference, but should not be used for new deployments — they carry the license defect described above, and any use against the live Cronometer service still implicates the ToS issue.
+> - **Tracking issue:** see [`quantcli/common` QUA-12](https://github.com/quantcli/common) for the deprecation decision and rationale.
+>
+> The rest of this README is preserved as historical documentation.
+>
+> ---
+
 Export your personal nutrition, biometric, and food-log data from [Cronometer](https://cronometer.com) as narrow markdown (the default) or JSON. Built for personal LLM agents and scripts that want structured nutrition data — for example, an LLM-driven bariatric or fitness coach that needs to know how much protein, B12, iron, or calcium you actually got today.
 
 [![Latest Release](https://img.shields.io/github/v/release/quantcli/crono-export-cli)](https://github.com/quantcli/crono-export-cli/releases/latest)
