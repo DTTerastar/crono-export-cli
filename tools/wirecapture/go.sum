@@ -1,0 +1,4 @@
+github.com/jrmycanady/gocronometer v1.5.1 h1:m2J31jEuLlL4RRdQLY33IFs4TAwmfevvJYl2SZxBSQ0=
+github.com/jrmycanady/gocronometer v1.5.1/go.mod h1:swnvYB6twU20LDzNpAz8JOX5mCHktTW06zlSXmmyZWc=
+golang.org/x/net v0.46.0 h1:giFlY12I07fugqwPuWJi68oOnpfqFnJIJzaIIm2JVV4=
+golang.org/x/net v0.46.0/go.mod h1:Q9BGdFy1y4nkUwiLvT5qtyhAnEHgnQ/zd8PfU6nc210=
